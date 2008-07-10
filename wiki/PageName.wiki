@@ -22,22 +22,38 @@ Why is that a reinvention? To make a long story short, EasyHook has nothing in c
   * Windows 2000 SP4 or later
   * Microsoft NET Framework 2.0 Redistributable
   * Microsoft Visual Studio 2005 SP1 Redistributable (only during Beta state of EasyHook)
-Table of Content
+
+----
+==Table of Content==
 
 1 Continuing Detours: the reinvention of Windows API Hooking
+
 1.1 A simple FileMon derivate
+
 2 A deep look under the hook
-2.1 Injection – A burden made easy 10
-2.1.1 Creating an already hooked process 11
-2.2 The injected library entry point 12
-2.2.1 The library constructor 12
-2.2.2 The library Run-Method 13
-2.3 Injection helper routines 14
-2.4 How to install a hook 15
-2.5 How to write a hook handler 17
-2.6 Using Thread ACLs 18
-2.7 Using handler utilities 20
-2.8 The IPC helper API 20
+
+2.1 Injection – A burden made easy
+
+2.1.1 Creating an already hooked process
+
+2.2 The injected library entry point
+
+2.2.1 The library constructor
+
+2.2.2 The library Run-Method
+
+2.3 Injection helper routines
+
+2.4 How to install a hook
+
+2.5 How to write a hook handler
+
+2.6 Using Thread ACLs
+
+2.7 Using handler utilities
+
+2.8 The IPC helper API
+
 
 ----
 ==1.1 A simple FileMon derivate==
@@ -560,7 +576,7 @@ The core part of any target-host scenario is IPC. With NET remoting this has bec
 
 To create a server with a random port name, just call:
 
-{{
+{{{
 String ChannelName = null;
 
 RemoteHooking.IpcCreateServer<FileMonInterface>(
