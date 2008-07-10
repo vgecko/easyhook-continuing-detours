@@ -1,31 +1,27 @@
 #labels Phase-Implementation
-1 Continuing Detours: the reinvention of Windows API Hooking
-
+=1 Continuing Detours: the reinvention of Windows API Hooking=
 
 Microsoft® Detours latest release was in December 2006. Now times have changed and the NET Framework has become more and more popular. EasyHook provides a way to hook unmanaged code from a managed environment. This implies several advantages:
 
-
-• No resource or memory leaks are left in the target
-• Support for Windows Vista SP1 and Windows Server 2008 SP1 by utilizing totally undocumented APIs, to still allow hooking into any terminal session.
-• You can write managed hook handlers for unmanaged APIs
-• All hooks are installed and automatically removed in a stable manner
-• You can use all the convenience managed code provides, like NET Remoting
-• EasyHook has done extensive work to provide managed handlers for unmanged code and this will finally lead into a stable way of hooking.
-• You will be able to write injection libraries and host processes compiled for AnyCPU, which will allow you to inject your code into 32- and 64-Bit processes from 64- and 32-Bit processes by using the very same assembly in all cases.
-• EasyHook supports RIP-relative addressing relocation for 64-Bit targets.
-
+  * No resource or memory leaks are left in the target
+  * Support for Windows Vista SP1 and Windows Server 2008 SP1 by utilizing totally undocumented APIs, to still allow hooking into any terminal session.
+  * You can write managed hook handlers for unmanaged APIs
+  * All hooks are installed and automatically removed in a stable manner
+  * You can use all the convenience managed code provides, like NET Remoting
+  * EasyHook has done extensive work to provide managed handlers for unmanged code and this will finally lead into a stable way of hooking.
+  * You will be able to write injection libraries and host processes compiled for AnyCPU, which will allow you to inject your code into 32- and 64-Bit processes from 64- and 32-Bit processes by using the very same assembly in all cases.
+  * EasyHook supports RIP-relative addressing relocation for 64-Bit targets.
 
 This way hooking has become a simple task and you can now write hooking applications like FileMon or RegMon with a few lines of code. Of course this is not the only thing you can do with hooking, which is limited by your mind only :-).
-
 
 Why is that a reinvention? To make a long story short, EasyHook has nothing in common with any existing hooking library except that it hooks native code and can inject libraries. All in all, it provides impressive improvements, in any direction.
 
 
-Minimal software requirements for end-users to execute applications using EasyHook:
+*Minimal software requirements* for end-users to execute applications using EasyHook:
 
-• Windows 2000 SP4 or later
-• Microsoft NET Framework 2.0 Redistributable
-• Microsoft Visual Studio 2005 SP1 Redistributable (only during Beta state of EasyHook)
+  * Windows 2000 SP4 or later
+  * Microsoft NET Framework 2.0 Redistributable
+  * Microsoft Visual Studio 2005 SP1 Redistributable (only during Beta state of EasyHook)
 Table of Content
 
 1 Continuing Detours: the reinvention of Windows API Hooking
@@ -42,11 +38,13 @@ Table of Content
 2.6 Using Thread ACLs 18
 2.7 Using handler utilities 20
 2.8 The IPC helper API 20
-1.1 A simple FileMon derivate
 
+----
+==1.1 A simple FileMon derivate==
 
 To prove that EasyHook really makes hooking simple, look at the following demo application, which will log all file accesses from a given process. We need a host process which injects the library and displays file accesses. It is possible to combine injection library and host process in one file as both are just threaded as valid NET assemblies, but I think to separate them is a more consistent approach. This demo will be used throughout the whole guide:
-Collapse
+
+{{{
 
 using System;
 using System.Collections.Generic;
@@ -113,10 +111,12 @@ namespace FileMon
         }
     }
 } 
+}}}
 
 The most complex part is the injected library which has to fulfill various requirements. We are hooking the CreateFile-API and redirecting all requests to our host process. The library will be unloaded if the host process is terminated:
 Collapse
 
+{{{
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -265,10 +265,11 @@ namespace FileMonInject
         }
     }
 }
-
+}}}
 
 Even if this might look strange, the next chapters will explain what is done there and why. You may start this application with a user defined target process ID as one and only parameter from command line. I recommend using the PID of “explorer.exe” because this will immediately produce output! Just browse your file system while running the FileMon utility...
-2 A deep look under the hook
+
+=2 A deep look under the hook=
 
 
 Now that you have seen the basic ideas of EasyHook and some sample code, we should start to discover what is really going on under the hood. In this chapter you will learn how to utilize most parts of the EasyHook API injecting libraries into any process and hooking any API you want.
